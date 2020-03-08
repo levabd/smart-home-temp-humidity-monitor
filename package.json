@@ -1,0 +1,24 @@
+{
+  "name": "smart-home-tuyapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "restify": "^8.5.1",
+    "tuyapi": "^5.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/levabd/smart-home-tuyapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/levabd/smart-home-tuyapi/issues"
+  },
+  "homepage": "https://github.com/levabd/smart-home-tuyapi#readme"
+}

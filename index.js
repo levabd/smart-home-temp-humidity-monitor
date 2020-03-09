@@ -1,47 +1,25 @@
 const TuyAPI = require('tuyapi');
 
 const device = new TuyAPI({
+  ip: '192.168.19.60',
   id: '10801581f4cfa202a0ea',
   key: 'f02d6f06ecb15f68',
 });
 
-let stateHasChanged = false;
+(async () => {
+  await device.find();
 
-// Find device on network
-device.find().then(() => {
-  // Connect to device
-  device.connect();
-});
+  await device.connect();
 
-// Add event listeners
-device.on('connected', () => {
-  console.log('Connected to device!');
-});
+  let status = await device.get();
 
-device.on('disconnected', () => {
-  console.log('Disconnected from device.');
-});
+  console.log(`Current status: ${status}.`);
 
-device.on('error', (error) => {
-  console.log('Error!', error);
-});
+  await device.set({ set: !status });
 
-device.on('data', (data) => {
-  console.log('Data from device:', data);
+  status = await device.get();
 
-  console.log(`Boolean status of default property: ${data.dps['1']}.`);
+  console.log(`New status: ${status}.`);
 
-  // Set default property to opposite
-  if (!stateHasChanged) {
-    device.set({ set: !data.dps['1'] });
-
-    // Otherwise we'll be stuck in an endless
-    // loop of toggling the state.
-    stateHasChanged = true;
-  }
-});
-
-// Disconnect after 10 seconds
-setTimeout(() => {
   device.disconnect();
-}, 10000);
+})();

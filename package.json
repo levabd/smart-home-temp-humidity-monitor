@@ -1,11 +1,13 @@
 {
-  "name": "smart-home-tuyapi",
+  "name": "smart-home-temp-humidity-monitor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "fs": "0.0.1-security",
     "restify": "^8.5.1",
-    "tuyapi": "^5.2.1"
+    "restify-cors-middleware": "^1.1.1",
+    "save": "^2.4.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -13,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levabd/smart-home-tuyapi.git"
+    "url": "git+https://github.com/levabd/smart-home-temp-humidity-monitor.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/levabd/smart-home-tuyapi/issues"
+    "url": "https://github.com/levabd/smart-home-temp-humidity-monitor/issues"
   },
-  "homepage": "https://github.com/levabd/smart-home-tuyapi#readme"
+  "homepage": "https://github.com/levabd/smart-home-temp-humidity-monitor#readme"
 }

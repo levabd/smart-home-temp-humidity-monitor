@@ -1,25 +1,72 @@
-const TuyAPI = require('tuyapi');
+#!/usr/bin/env node
 
-const device = new TuyAPI({
-  ip: '192.168.19.60',
-  id: '10801581f4cfa202a0ea',
-  key: 'f02d6f06ecb15f68',
+'use strict';
+
+const fs = require('fs');
+const restify = require('restify');
+const corsMiddleware = require('restify-cors-middleware');
+
+let lrrawdata = fs.readFileSync('lr.json');
+let lr = JSON.parse(lrrawdata);
+
+let brrawdata = fs.readFileSync('br.json');
+let br = JSON.parse(brrawdata);
+
+let cbrawdata = fs.readFileSync('cb.json');
+let cb = JSON.parse(cbrawdata);
+
+// ==== REST ZONE ====
+const cors = corsMiddleware({
+  origins: ['*'],
+  allowHeaders: ['API-Token'],
+  exposeHeaders: ['API-Token-Expiry'],
 });
 
-(async () => {
-  await device.find();
+var server = restify.createServer();
+server.pre(cors.preflight);
+server.use(cors.actual);
 
-  await device.connect();
+server.get('/living-room/temp', function (req, res, next) {
+  lrrawdata = fs.readFileSync('lr.json');
+  lr = JSON.parse(lrrawdata);
+  res.json(200, lr.temperature);
+  next();
+});
 
-  let status = await device.get();
+server.get('/bedroom/temp', function (req, res, next) {
+  brrawdata = fs.readFileSync('br.json');
+  br = JSON.parse(brrawdata);
+  res.json(200, br.temperature);
+  next();
+});
 
-  console.log(`Current status: ${status}.`);
+server.get('/cabinet/temp', function (req, res, next) {
+  cbrawdata = fs.readFileSync('cb.json');
+  cb = JSON.parse(cbrawdata);
+  res.json(200, cb.temperature);
+  next();
+});
 
-  await device.set({ set: !status });
+server.get('/living-room/humidity', function (req, res, next) {
+  lrrawdata = fs.readFileSync('lr.json');
+  lr = JSON.parse(lrrawdata);
+  res.json(200, lr.humidity);
+  next();
+});
 
-  status = await device.get();
+server.get('/bedroom/humidity', function (req, res, next) {
+  brrawdata = fs.readFileSync('br.json');
+  br = JSON.parse(brrawdata);
+  res.json(200, br.humidity);
+  next();
+});
 
-  console.log(`New status: ${status}.`);
-
-  device.disconnect();
-})();
+server.get('/cabinet/humidity', function (req, res, next) {
+  cbrawdata = fs.readFileSync('cb.json');
+  cb = JSON.parse(cbrawdata);
+  res.json(200, cb.humidity);
+  next();
+});
+server.listen(2004, function () {
+  console.log('%s listening at %s', server.name, server.url);
+});
